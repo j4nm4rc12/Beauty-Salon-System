@@ -1,0 +1,261 @@
+import customtkinter
+from PIL import Image
+import os
+
+# Configure customtkinter appearance
+customtkinter.set_appearance_mode("light")
+customtkinter.set_default_color_theme("blue")
+
+# Function to toggle password visibility
+def toggle_password_visibility():
+    # Toggle the "show" option based on the checkbox state
+    if show_password_checkbox.get():
+        password_entry.configure(show="")  # Show the password
+    else:
+        password_entry.configure(show="*")  # Hide the password
+
+#
+def show_frame(frame):
+    frame.tkraise()
+
+def background_image():
+    # Open and load the image using Pillow
+    backgroundImg = Image.open("bg.png")
+    backgroundImg_resized = backgroundImg.resize((1366, 768), Image.Resampling.LANCZOS)  # High-quality resizing
+
+    # Convert the image for use in customtkinter
+    img1_ctk = customtkinter.CTkImage(light_image=backgroundImg_resized, size=(1366, 768))
+    return img1_ctk
+
+#===================================================================================================================================
+# Main Window
+beautysalonsystem = customtkinter.CTk()
+beautysalonsystem.title("Beauty Salon System")
+
+# Get the screen width and height
+screen_width = beautysalonsystem.winfo_screenwidth()
+screen_height = beautysalonsystem.winfo_screenheight()
+
+# Set the window geometry to fill the entire screen
+beautysalonsystem.geometry(f"{screen_width}x{screen_height}+0+0")
+
+# Configure the root grid to center the frame
+beautysalonsystem.rowconfigure(0, weight=1)
+beautysalonsystem.columnconfigure(0, weight=1)
+
+#===================================================================================================================================
+# LOGIN PAGE
+loginpage = customtkinter.CTkFrame(master=beautysalonsystem)
+
+# Create a background label with the image
+img1_ctk = background_image()  # Get the image from the background function
+background = customtkinter.CTkLabel(master=loginpage, image=img1_ctk, text="")
+background.grid(row=0, column=0, sticky="nsew")  # Make the image cover the entire window
+
+# Logo Frame
+logoFrame = customtkinter.CTkFrame(master=background, width=500, height=500, corner_radius=20, fg_color="#F5F5DC", bg_color="#fff7ad")
+logoFrame.grid(row=0, column=0, pady=100, padx=200, sticky="news")
+
+# Logo Image
+logoImg = Image.open("Logo.png")
+logoImg_resize = logoImg.resize((450, 450), Image.Resampling.LANCZOS)
+
+img2_ctk = customtkinter.CTkImage(light_image=logoImg_resize, size=(450, 450))
+
+# Create a background label with the image
+logo = customtkinter.CTkLabel(master=logoFrame, image=img2_ctk, text="")
+logo.grid(row=0, column=0, pady=40, padx=20, sticky="ns")
+
+# Login Frame
+loginFrame = customtkinter.CTkFrame(master=logoFrame, corner_radius=20, bg_color="#F5F5DC", fg_color="#E6E6FA")
+loginFrame.grid(row=0, column=35, pady=40, padx=20, sticky="news")
+
+# Configure rows in loginFrame to adjust spacing
+loginFrame.grid_rowconfigure(0, weight=1)  # Space above the content
+loginFrame.grid_rowconfigure(1, weight=0)  # Greetings
+loginFrame.grid_rowconfigure(2, weight=0)  # Username
+loginFrame.grid_rowconfigure(3, weight=0)  # Password
+loginFrame.grid_rowconfigure(4, weight=0)  # Checkbox and forgot password
+loginFrame.grid_rowconfigure(5, weight=0)  # Login button
+loginFrame.grid_rowconfigure(6, weight=0)  # Signup prompt
+loginFrame.grid_rowconfigure(7, weight=1)  # Space between content and footer
+
+# Add a title label to the login frame
+greetings = customtkinter.CTkLabel(master=loginFrame, text="\n       Welcome To Luxury Salon!       ", font=("Montserrat", 24, "bold"), text_color="black")
+greetings.grid()
+
+username_entry = customtkinter.CTkEntry(master=loginFrame, width=300, height=40, corner_radius=10, placeholder_text="Username")
+username_entry.grid(pady=20)
+
+password_entry = customtkinter.CTkEntry(master=loginFrame, width=300, height=40, corner_radius=10, placeholder_text="Password", show="*")
+password_entry.grid()
+
+# Checkbox for Show/Hide Password
+show_password_checkbox = customtkinter.CTkCheckBox(master=loginFrame, checkbox_width=12, checkbox_height=12, corner_radius=0, text="Show Password", command=toggle_password_visibility)
+show_password_checkbox.grid(pady=10, padx=60, sticky="w")
+
+# Forgot Password Button
+forgot_password = customtkinter.CTkButton(master=loginFrame, text="Forgot Password?", text_color="#57a1f8", fg_color="transparent", bg_color="transparent", height=0, width=0, hover_color="lightgray")
+forgot_password.grid(row=3, padx=60, sticky="e")
+
+# Add login button
+login_button = customtkinter.CTkButton(master=loginFrame, text="Login", width=200, height=45, corner_radius=10, fg_color="green", command=lambda: show_frame(landingpage))
+login_button.grid(pady=10, padx=52, sticky="we")
+
+# Sign up prompt
+signupPrompt = customtkinter.CTkLabel(master=loginFrame, text="Don't have an account?", font=('Arial', 12))
+signupPrompt.grid(row=5, padx=105, sticky="w")
+
+# Sign up Button
+sign_up = customtkinter.CTkButton(master=loginFrame, text='Sign up', text_color="#57a1f8", cursor='hand2', width=6, height=0, fg_color="transparent", bg_color="transparent", hover_color="lightgray", command=lambda: show_frame(signinpage))
+sign_up.grid(row=5, padx=120, sticky="e")
+
+# Footer
+footer = customtkinter.CTkLabel(master=loginFrame, text="© 2024 | Icons, backgrounds, and images are created using Canva.", font=('Arial', 12))
+footer.grid(column=0, row=7, sticky="s")
+
+#===================================================================================================================================
+forgotpasspage = customtkinter.CTkFrame(master=beautysalonsystem)
+
+# Create a background label with the image
+img2_ctk = background_image()  # Get the image from the background function
+background1 = customtkinter.CTkLabel(master=forgotpasspage, image=img2_ctk, text="")
+background1.grid(row=0, column=0, sticky="nsew")  # Make the image cover the entire window
+
+
+
+#===================================================================================================================================
+signinpage = customtkinter.CTkFrame(master=beautysalonsystem)
+
+# Background image label
+img3_ctk = background_image()  # Get the image from the background function
+background2 = customtkinter.CTkLabel(master=signinpage, image=img3_ctk, text="")
+background2.grid(row=0, column=0, sticky="nsew")  # Make the image cover the entire window
+
+# Sign in Frame
+signinframe = customtkinter.CTkFrame(master=background2, corner_radius=20, bg_color="#F5F5DC", fg_color="#E6E6FA")
+signinframe.grid(row=0, column=0, pady=80, padx=350, sticky="nsew")
+
+signinframe.rowconfigure(0, weight=1)
+signinframe.rowconfigure(1, weight=1)
+
+signinframe.columnconfigure(0, weight=1)
+signinframe.columnconfigure(1, weight=1)
+
+greetings = customtkinter.CTkLabel(master=signinframe,text="Creating new Account", text_color="black", font=("Montserrat", 44, "bold"))
+greetings.grid(row=0, column=0, columnspan=3, pady=20, padx=20, sticky="n")
+
+firstname = customtkinter.CTkEntry(master=signinframe, placeholder_text="First Name")
+firstname.grid()
+
+'''
+# Title Label
+greetings2 = customtkinter.CTkLabel(master=signinframe, text="Creating new Account", text_color="black", font=("Montserrat", 44, "bold"))
+greetings2.grid(row=0, column=0, columnspan=3, pady=20, padx=20, sticky="n")
+
+# First Name Entry
+firstname = customtkinter.CTkEntry(master=signinframe, width=250, height=40, corner_radius=10, placeholder_text="First Name")
+firstname.grid(row=0, column=0, padx=20, pady=0, sticky="ew")
+
+# Last Name Entry
+lastname = customtkinter.CTkEntry(master=signinframe, width=250, height=40, corner_radius=10, placeholder_text="Last Name")
+lastname.grid(row=0, column=1, padx=20, pady=0, sticky="ew")
+
+# Date of Birth Selection - Month
+months = customtkinter.CTkComboBox(master=signinframe, values=["January", "February", "March"], font=("Arial", 14))
+months.configure(fg_color="white", button_color="gray", state="readonly")
+months.grid(row=0, column=0, padx=20, pady=10)
+
+# Date of Birth Selection - Day
+days = customtkinter.CTkComboBox(master=signinframe, values=["1", "2", "3"], font=("Arial", 14))
+days.configure(fg_color="white", button_color="gray", state="readonly")
+days.grid(row=0, column=2, padx=20, pady=10)
+
+# Date of Birth Selection - Year
+years = customtkinter.CTkComboBox(master=signinframe, values=["2024", "2025", "2026"], font=("Arial", 14))
+years.configure(fg_color="white", button_color="gray", state="readonly")
+years.grid(row=0, column=3, padx=20, pady=10)
+
+# Gender Selection - Radio Buttons
+gender_label = customtkinter.CTkLabel(master=signinframe, text="Gender", text_color="black", font=("Arial", 16))
+gender_label.grid(row=3, column=0, pady=20, padx=20, sticky="w")
+
+gender_var = customtkinter.StringVar(value="")  # Default value to an empty string
+male_radio = customtkinter.CTkRadioButton(master=signinframe, text="Male", variable=gender_var, value="Male", font=("Arial", 14))
+male_radio.grid(row=4, column=0, padx=20, pady=10, sticky="w")
+
+female_radio = customtkinter.CTkRadioButton(master=signinframe, text="Female", variable=gender_var, value="Female", font=("Arial", 14))
+female_radio.grid(row=4, column=1, padx=20, pady=10, sticky="w")
+
+'''
+
+#===================================================================================================================================
+landingpage = customtkinter.CTkFrame(master=beautysalonsystem)
+
+# Configure the root grid to center the frame
+landingpage.grid_rowconfigure(0, weight=1)  # Add weight to top row
+landingpage.grid_rowconfigure(1, weight=0)  # Add weight to bottom row
+landingpage.grid_columnconfigure(0, weight=1)  # Add weight to left column
+landingpage.grid_columnconfigure(1, weight=0)  # Add weight to right column
+
+# Landing Frame
+landing_frame = customtkinter.CTkFrame(master=landingpage, fg_color="white", width=1300, height=650, corner_radius=20)
+landing_frame.grid(row=0, column=0, padx=15, pady=15, sticky="nsew")
+
+# Salon Logo
+logo_path = 'salonLogo.png'
+if os.path.exists(logo_path):
+    # Open and resize the logo image using Pillow
+    salon_logo_img = Image.open(logo_path)
+    salon_logo_resized = salon_logo_img.resize((300, 100), Image.Resampling.LANCZOS)  # Resize to desired dimensions
+
+    # Convert the image for use in customtkinter
+    salon_logo_ctk = customtkinter.CTkImage(light_image=salon_logo_resized, size=(300, 100))
+
+    # Create a label to display the logo
+    logo_label = customtkinter.CTkLabel(landing_frame, text="", image=salon_logo_ctk)
+    logo_label.grid(pady=10, padx=20, sticky="nw")  # Add some space above and below
+else:
+    # Display a placeholder text if the logo is missing
+    placeholder_logo = customtkinter.CTkLabel(landing_frame, text="Luxury Salon Logo", font=("Arial", 24, "bold"), corner_radius=20)
+    placeholder_logo.grid(row=0, column=0, sticky="nw")
+
+# Options Frame
+options_frame = customtkinter.CTkFrame(master=landing_frame, fg_color="#f0f0f0", width=1300, height=600, corner_radius=20)
+options_frame.grid(row=1, column=0, sticky="nsew", padx=20, pady=(0, 20))
+
+# Configure grid within landing_frame for proportional spacing
+landing_frame.grid_rowconfigure(0, weight=0)  # Logo row
+landing_frame.grid_rowconfigure(1, weight=1)  # Options frame row
+landing_frame.grid_columnconfigure(0, weight=1)  # Center column
+
+# Background Image in Options Frame
+ads_path = "ads.png"
+if os.path.exists(ads_path):
+    # Open and resize the ads image using Pillow
+    ads_img = Image.open(ads_path)
+    ads_resized = ads_img.resize((1300, 600), Image.Resampling.LANCZOS)  # Resize to desired dimensions
+
+    # Convert the image for use in customtkinter
+    ads_ctk = customtkinter.CTkImage(light_image=ads_resized, size=(1300, 600))
+
+    # Create a label to display the background ad
+    customtkinter.CTkLabel(options_frame, text="", image=ads_ctk).grid(sticky="nwse")
+else:
+    print(f"Error: {ads_path} not found!")
+
+
+
+
+# Grid frames
+for frame in [loginpage,signinpage, forgotpasspage, landingpage]:
+    frame.grid(row=0, column=0, sticky='nsew')
+
+
+
+
+# Show login frame initially
+show_frame(signinpage)
+
+# Start the main loop
+beautysalonsystem.mainloop()
